@@ -1,18 +1,17 @@
-package jap.core;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import jap.exception.JapException;
 
 public class Jap {
     private String env_url, py_url;
     private String[] args;
     private String[] arguments;
-    private final String version = "1.0";
+    private final String version = "1.1";
 
     private final void print_logo(){
         /**
@@ -175,12 +174,12 @@ public class Jap {
         log_nor("Creating runtime successfully.Running the target python file...");
         try {
             Process process = Runtime.getRuntime().exec(this.arguments);
-            BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream(), Charset.forName("GBK")));
             String line = null;
-            StringBuffer result = new StringBuffer();
+            StringBuilder result = new StringBuilder();
             while ((line = in.readLine()) != null) {
                 print_msg(line);
-                result.append(line + "\n");
+                result.append(line).append("\n");
             }
             log_nor("Getting the result(String) successful");
             in.close();
